@@ -68,6 +68,10 @@ span {
 	display: none;
 }
 
+input {
+	max-width: 110px;
+}
+
 .color5 {
 	background: rgb(211, 211, 211);
 }
