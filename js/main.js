@@ -1,4 +1,4 @@
-let arr = ['item1', 'item2', 'item3', 'item4', 'item5']
+let arr = ['Задача 1', 'Задача 2', 'Задача 3'];
 const ul = document.querySelector('ul');
 
 const input = document.createElement('input');
