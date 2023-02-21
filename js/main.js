@@ -1,86 +1,126 @@
-const arr = ['item 1', 'item 2', 'item 3'];
-
+let arr = ['item1', 'item2', 'item3', 'item4', 'item5']
 const ul = document.querySelector('ul');
-let link;
 
-ul.addEventListener('click', function (e) {
-	
-	if (e.target.matches('span')) {
-		const input = document.createElement('input');
-		input.type = 'text';
-		input.value = e.target.textContent;
-		e.target.textContent = '';
+const input = document.createElement('input');
+input.type = 'text';
+input.className = 'input-text'
+input.placeholder = 'Добавьте задачу';
+ul.insertAdjacentElement('afterend', input);
 
-		input.addEventListener('blur', function() {
+function addLi() {
+	const input = document.querySelector('.input-text');
+	input.addEventListener('blur', function() {
+		if (input.value.length > 0) {
+			const span = document.createElement('span');
+			const li = document.createElement('li');
+			span.textContent = input.value;
+			input.value = '';
+			li.appendChild(span);
+			ul.appendChild(li);
+			li.classList.add('color2');
 
-			const parentLi = e.target.closest('li');
-			parentLi.classList.add('color4');
+			const link = document.createElement('a');
+			link.href = 'https://ya.ru/';
+			link.textContent = 'DEL';
+			span.insertAdjacentElement('afterend', link);
+
+			const linkReady = document.createElement('a');
+			linkReady.href = 'https://mail.ru/';
+			linkReady.textContent = 'Не сделано';
+			link.insertAdjacentElement('afterend', linkReady);
+
 			setTimeout(function() {
-				parentLi.classList.remove('color4');
-				parentLi.classList.remove('color1');
-				e.target.textContent = input.value;
+				li.classList.remove('color2');
 			}, 200)
 
-		})
-		e.target.appendChild(input);
-		input.focus();
-	}
-})
-
-for (let i = 0; i < arr.length; i++) {
-	const li = document.createElement('li');
-	const span = document.createElement('span')
-	link = document.createElement('a');
-	link.href = 'https://ya.ru/';
-	link.textContent = 'del';
-	span.innerHTML = arr[i];
-	li.append(span, link)
-	ul.appendChild(li);
-
-	delLi();
-
-}
-
-const addLi = document.createElement('input');
-addLi.type = 'text';
-addLi.style.marginTop = '15px';
-ul.insertAdjacentElement('afterend', addLi);
-
-addLi.addEventListener('blur', function() {
-	if (addLi.value === '') {
-		return;
-	}
-	
-	const li = document.createElement('li');
-	const span = document.createElement('span')
-	link = document.createElement('a');
-	link.href = 'https://ya.ru/';
-	link.textContent = 'del';
-	span.innerHTML = addLi.value;
-
-	li.append(span, link)
-	ul.appendChild(li);
-	addLi.value = '';
-
-	li.classList.add('color2');
-
-	setTimeout(function() {
-		li.classList.remove('color2');
-		li.classList.add('color1');
-	}, 200)
-
-	delLi();	
-
-})
-
-function delLi() {
-	link.addEventListener('click', function(e) {
-		e.preventDefault();
-		const parentLi = this.closest('li');
-		parentLi.classList.add('color3');
-		setTimeout(function() {
-			parentLi.remove();
-		}, 200);
-
+			delLi(link);
+			crossLi(span, li, linkReady);
+		}
 	})
 }
+
+function fillArray(arr) {
+
+	for (let elem of arr) {
+		const li = document.createElement('li');
+		const span = document.createElement('span');
+		span.textContent = elem;
+		console.log(span)
+		li.appendChild(span);
+		ul.appendChild(li);
+
+		const link = document.createElement('a');
+		link.href = 'https://ya.ru/';
+		link.textContent = 'DEL';
+		span.insertAdjacentElement('afterend', link);
+
+		const linkReady = document.createElement('a');
+		linkReady.href = 'https://mail.ru/';
+		linkReady.textContent = 'Не сделано';
+		link.insertAdjacentElement('afterend', linkReady);
+
+		delLi(link);
+		crossLi(span, li, linkReady);
+		
+
+
+	}
+}
+
+function changeText() {
+	ul.addEventListener('click', function(e) {
+		if(e.target.matches('span')) {
+
+			const span = e.target;
+			const input = document.createElement('input');
+			input.type = 'text';
+
+			input.value = span.textContent;
+			span.textContent = ''
+			
+			span.appendChild(input);
+			input.focus();
+
+			input.addEventListener('blur', function() {
+				span.textContent = input.value;
+				const li = span.closest('li')
+					li.classList.add('color4');
+				setTimeout(function() {
+					li.classList.remove('color4');
+				}, 200)
+
+			})
+		}
+	})
+}
+
+function delLi(link) {
+	link.addEventListener('click', function(e) {
+		e.preventDefault();
+		const parent = link.closest('li');
+		parent.classList.add('color3');
+		setTimeout(function() {
+			parent.remove(); 
+		}, 200)
+	})
+}
+
+function crossLi(span, li, linkReady) {
+	linkReady.addEventListener('click', function(e) {
+		e.preventDefault();
+		li.classList.toggle('color5');
+		if (linkReady.textContent === 'Не сделано') {
+			linkReady.textContent = 'Cделано';
+		} else {
+			linkReady.textContent = 'Не сделано';
+		}
+		span.classList.toggle('cross-text');
+	}) 	
+
+}
+
+addLi();
+changeText();
+fillArray(arr);
+
+
