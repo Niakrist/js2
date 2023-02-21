@@ -68,6 +68,10 @@ span {
 	display: none;
 }
 
+.color5 {
+	background: rgb(211, 211, 211);
+}
+
 .color1 {
 	background: white;
 }
@@ -80,9 +84,7 @@ span {
 .color4 {
 	background: yellow;
 }
-.color5 {
-	background: rgb(211, 211, 211);
-}
+
 
 .cross-text {
 	text-decoration: line-through;
